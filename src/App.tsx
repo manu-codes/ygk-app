@@ -5,7 +5,7 @@ import { API_KEY, sid } from './conf.local';
 import logo from './logo.svg';
 
 const url = 'https://sheets.googleapis.com/v4/spreadsheets/' + sid + '/values/mem?key=' + API_KEY;
-const urlpost = 'https://sheets.googleapis.com/v4/spreadsheets/' + sid + '/values/Sheet1!A4:C4?key=' + API_KEY;
+const urlpost = 'https://sheets.googleapis.com/v4/spreadsheets/' + sid + '/values/Sheet1!A4:C4?valueInputOption=USER_ENTERED&key=' + API_KEY;
 class App extends React.Component {
     public componentDidMount2() {
         fetch(url, {
@@ -23,17 +23,20 @@ class App extends React.Component {
     }
     public onClick() {
         const data = {
-            resource: {
-                values: [["Void", "Canvas", "Website"]]
-            }
-        };
+            "majorDimension": "ROWS",
+            "range": "Sheet1!A4:C4",
+            "values": [
+              ["Item", "Cost", "Stocked"],
+              
+            ],
+          };
         fetch(urlpost, {
             body: JSON.stringify(data), // body data type must match "Content-Type" header
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 // "Content-Type": "application/x-www-form-urlencoded",
             },
-            method: 'post',
+            method: 'put',
             redirect: "follow", // manual, *follow, error
             referrer: "no-referrer", // no-referrer, *client
 
