@@ -1,12 +1,10 @@
 import * as React from 'react';
 import './App.css';
-
-// import { API_KEY, sid } from './conf.local';
+import { Route, Switch } from 'react-router-dom';
 import GapiAuth from './components/GapiAuth';
 import logo from './logo.svg';
-
-// const url = 'https://sheets.googleapis.com/v4/spreadsheets/' + sid + '/values/mem?key=' + API_KEY;
-// const urlpost = 'https://sheets.googleapis.com/v4/spreadsheets/' + sid + '/values/Sheet1!A4:C4?valueInputOption=USER_ENTERED&key=' + API_KEY;
+import Members from './components/pages/Members';
+import PageList from './components/PageList';
 class App extends React.Component {
     public render() {
         return (
@@ -16,8 +14,13 @@ class App extends React.Component {
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
                 <p className="App-intro">
-                    <GapiAuth/>
+                    <GapiAuth />
                 </p>
+                <PageList />
+                <Switch>
+                    <Route path="/members" component={Members} />
+                    <Route path="/programs" component={Members} />
+                </Switch>
             </div>
         );
     }
