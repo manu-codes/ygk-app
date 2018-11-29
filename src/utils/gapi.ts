@@ -2,14 +2,12 @@ const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v
 
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
 let envVar: any = null;
+export let gapiSignedIn: boolean = false;
 export const updateSigninStatus = (isSignedIn: boolean) => {
     if (isSignedIn) {
-        // authorizeButton.style.display = 'none';
-        // signoutButton.style.display = 'block';
-        // listMajors();
+        gapiSignedIn = true;
     } else {
-        // authorizeButton.style.display = 'block';
-        // signoutButton.style.display = 'none';
+        gapiSignedIn = false;
     }
 }
 const initClient = () => {
@@ -35,6 +33,14 @@ const gapiLoad = () => {
     console.log('GAPI LOADED');
     const gapi = window['gapi'];
     gapi.load('client:auth2', initClient);
+}
+export const signIn = () => {
+    const gapi = window['gapi'];
+    gapi.auth2.getAuthInstance().signIn();
+}
+export const signOut = () => {
+    const gapi = window['gapi'];
+    gapi.auth2.getAuthInstance().signOut();
 }
 
 const loadScript = (src: string) => {
