@@ -6,7 +6,9 @@
   ],
   "rules": {
     "no-console": false,
-    "no-string-literal": false
+    "no-string-literal": false,
+    "interface-name": [true, "never-prefix"],
+    "member-access": false
   },
   
   "linterOptions": {
