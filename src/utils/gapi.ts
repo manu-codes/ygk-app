@@ -65,4 +65,11 @@ export const startGapi = (proc: any) => {
         gapiLoad();
     })
 }
+export const getSheet = (spreadsheetId: string, range: string) => {
+    const gapi = window['gapi'];
+    return gapi.client.sheets.spreadsheets.values.get({
+        range,
+        spreadsheetId,
+    })
+}
 

@@ -1,9 +1,11 @@
 import * as React from "react"
-import { gapiSignedIn, signIn, signOut, startGapi } from '../../utils/gapi';
+import { gapiSignedIn, signIn, signOut, startGapi, getSheet } from '../../utils/gapi';
 const timeout = 1000;
 let timeoutHandle: any;
 interface Props {
     children?: React.ReactNode
+    onDataUpdate: (data: any) => any;
+    onNoPermision: () => any;
 }
 
 interface State {
@@ -28,6 +30,19 @@ export default class GapiAuth extends React.Component<Props, State> {
     checkGapiStat() {
         if (gapiSignedIn) {
             this.setState({ loggedIn: true });
+            if (process.env.REACT_APP_TABLES) {
+                getSheet(process.env.REACT_APP_TABLES, 'datatables').then(
+                    (response: any) => {
+                        this.props.onDataUpdate(response.result);
+                    }
+                ).catch(
+                    (response: any) => {
+                        if (response.status === 403) {
+                            this.props.onNoPermision();
+                        }
+                    }
+                );
+            }
             clearTimeout(timeoutHandle)
         } else {
             setTimeout(this.checkGapiStat, timeout);

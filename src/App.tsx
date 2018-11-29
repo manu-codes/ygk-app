@@ -6,8 +6,25 @@ import logo from './logo.svg';
 import Members from './components/pages/Members';
 import PageList from './components/PageList';
 import Programs from './components/pages/Programs';
-class App extends React.Component {
+interface State {
+    allowed: boolean;
+}
+class App extends React.Component<{}, State> {
+    constructor() {
+        super({});
+        this.state = { allowed: true };
+        this.onNoPermision = this.onNoPermision.bind(this);
+    }
+    onDataUpdate(data: any) {
+        console.log('DATA', data);
+    }
+    onNoPermision() {
+        this.setState({
+            allowed: false
+        })
+    }
     public render() {
+        const { allowed } = this.state;
         return (
             <div className="App">
                 <header className="App-header">
@@ -15,9 +32,10 @@ class App extends React.Component {
                     <div className="App-title">App</div>
                 </header>
                 <p className="App-intro">
-                    <GapiAuth />
+                    <GapiAuth onDataUpdate={this.onDataUpdate}
+                        onNoPermision={this.onNoPermision} />
                 </p>
-                <PageList />
+                {allowed ? <PageList /> : 'Not allowed to view pages. Contact Administrator.'}
                 <Switch>
                     <Route path="/members" component={Members} />
                     <Route path="/programs" component={Programs} />
