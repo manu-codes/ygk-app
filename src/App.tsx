@@ -6,21 +6,33 @@ import logo from './logo.svg';
 import Members from './components/pages/Members';
 import PageList from './components/PageList';
 import Programs from './components/pages/Programs';
+interface AppState {
+    loggedIn: boolean
+}
 interface State {
     allowed: boolean;
+    appState: AppState
 }
 class App extends React.Component<{}, State> {
     constructor() {
         super({});
-        this.state = { allowed: true };
+        this.state = { allowed: false, appState: { loggedIn: false } };
         this.onNoPermision = this.onNoPermision.bind(this);
+        this.onDataUpdate=this.onDataUpdate.bind(this);
     }
     onDataUpdate(data: any) {
         console.log('DATA', data);
+        const appState: AppState = { loggedIn: true };
+        this.setState({
+            allowed: true,
+            appState
+        })
     }
     onNoPermision() {
+        const appState: AppState = { loggedIn: false };
         this.setState({
-            allowed: false
+            allowed: false,
+            appState
         })
     }
     public render() {
